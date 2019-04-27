@@ -1,0 +1,53 @@
+\tikzset{%
+  app/.style    = {draw, ultra thick, rectangle, minimum height = 2.5em,
+    minimum width = 5em, fill=black!25},
+  block/.style    = {draw, ultra thick, rectangle, minimum height = 3em,
+    minimum width = 5em},
+  blockres/.style    = {draw, ultra thick, rectangle, minimum height = 3em,
+    minimum width = 5em, fill=green!25},
+  biblock/.style  = {draw, ultra thick, rectangle, minimum height = 6em,
+    minimum width = 6em, fill=red!25},
+  sum/.style      = {draw, circle, node distance = 4cm}, % Adder
+  input/.style    = {coordinate}, % Input
+  output/.style   = {coordinate} % Output
+}
+
+\begin{tikzpicture}[scale=1.0,transform shape, auto, ultra thick, node distance=1.5cm, >=triangle 45]
+
+\draw
+  % Drawing the top blocks
+  node [input, name=goalaccuracy] {} 
+  node [left of=goalaccuracy, node distance=0.35mm]{}
+  node [sum, right of=goalaccuracy] (sumaccuracy) {} % negative feedback
+  node [block, right of=sumaccuracy, align=center, node distance=12cm] (controlaccuracy) 
+    {~Controller~}
+  % node [block, right of=controlaccuracy, align=center, node distance=3.0cm] (translateaccuracy) 
+  %   {Mapper}
+  node [blockres, above of=controlaccuracy, align=center, node distance=5cm] (resourcefile) 
+    {Min / Max\\Power}
+;
+  % Connectng lines
+\draw[->](goalaccuracy) -- node[align=center] {Performance\\Goal}(sumaccuracy);
+\draw[->](sumaccuracy) -- node[align=center] {Performance\\Error}(controlaccuracy);
+% \draw[->](controlaccuracy) -- node[align=center] {Generic\\Control\\Signal}(translateaccuracy);
+\draw[->](resourcefile) -- (controlaccuracy);
+
+% Draw software system
+\draw
+  node [biblock, right of=controlaccuracy, node distance=12cm, align=center, yshift=-1cm] (system)
+    {\\System\\\\\\}
+;
+\draw
+  node [app, right of=controlaccuracy, node distance=12cm, align=center, yshift=-2cm] (software)
+    {Application}
+;
+
+% lines from translators to software
+\draw[->](controlaccuracy.east) -- node [name=ka,align=center]{Power Cap} (controlaccuracy.east -| system.west);
+
+% Connectng lines
+\coordinate (feedbackup) at ([yshift=-2cm]sumaccuracy.south);
+\draw (software.west |- feedbackup) -| node [near end,align=center] {\\Performance\\Feedback} (feedbackup);
+\draw[->](feedbackup) -- node[pos=0.99] {$-$} (sumaccuracy);
+
+\end{tikzpicture}

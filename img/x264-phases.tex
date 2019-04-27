@@ -1,0 +1,71 @@
+\begin{tikzpicture}
+\begin{centering}
+
+\definecolor{s1}{RGB}{228, 26, 28}
+\definecolor{s2}{RGB}{55, 126, 184}
+\definecolor{s3}{RGB}{77, 175, 74}
+\definecolor{s4}{RGB}{152, 78, 163}
+\definecolor{s5}{RGB}{255, 127, 0}
+
+\begin{groupplot}[
+    group style={
+        group name=plots,
+        group size=1 by 2,
+        xlabels at=edge bottom,
+        xticklabels at=edge bottom,
+        vertical sep=5pt
+    },
+height=7cm,
+width=0.8\columnwidth,
+xmajorgrids,
+ymajorgrids,
+grid style={dashed},
+xmin=0,
+xmax=4500,
+yticklabel pos=left,
+enlargelimits=false,
+tick align = outside,
+tick style={white},
+xticklabel shift={-5pt},
+yticklabel shift={-5pt},
+ylabel shift={-2pt},
+ylabel style={align=center},
+unbounded coords=jump,
+]
+
+\nextgroupplot[ylabel={Performance \\ (Normalized)}, % Performance
+xtick={0,500,1000,1500,2000,2500,3000,3500,4000,4500},
+ytick={0.0,0.5,1.0,1.5,2.0},
+yticklabels={,0.5,1.0,1.5,2.0},
+% yticklabel style={font=\footnotesize},
+ymin=0,
+ymax=2,
+% legend entries={{$\mathsf{DVFS}$},{$\mathsf{\SYSTEM{}}$}},
+% legend style={draw=none,at={(0.5,1.4)},anchor=north,legend columns=4,line width=5pt},
+]
+\addplot[line width=3pt, solid, color=s2] table[x index=0,y index=1,col sep=tab] {img/phases/x264-phases-clover-copper.txt};
+\addplot[line width=3pt, solid, black] coordinates {(0, 1) (4500, 1)};
+\addplot[line width=3pt, dashed, black] coordinates {(1500,0) (1500, 2)};
+\addplot[line width=3pt, dashed, black] coordinates {(3000,0) (3000, 2)};
+
+
+\nextgroupplot[ylabel={Power \\ (Watts)}, % Power
+ytick={0,50,100,150,200,250},
+yticklabels={,50,100,150,200,250},
+% yticklabel style={font=\footnotesize},
+ymin=50,
+ymax=200,
+xlabel={$time$ [frame]},
+xlabel near ticks,
+xtick={0,500,1000,1500,2000,2500,3000,3500,4000,4500},
+xticklabels={0,,,1500,,,3000,,,4500},
+% xticklabel style={font=\footnotesize},
+]
+\addplot[line width=3pt, solid, color=s1] table[x index=0,y index=2,col sep=tab] {img/phases/x264-phases-clover-copper.txt};
+\addplot[line width=3pt, dashed, black] coordinates {(1500,0) (1500, 250)};
+\addplot[line width=3pt, dashed, black] coordinates {(3000,0) (3000, 250)};
+
+\end{groupplot}
+\end{centering}
+
+\end{tikzpicture}
