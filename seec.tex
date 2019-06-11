@@ -310,7 +310,7 @@ We address the challenges above with \SYSTEM{}, which uses \emph{adaptive contro
 }
 
 A user provides \SYSTEM{} with the \textbf{performance goal}, $P_{ref}$.
-At runtime, the application measures its own performance (\textbf{performance feedback}), $p_m(t)$, which it provides to \SYSTEM{}.
+At runtime, the application measures its own performance and provides \textbf{performance feedback}, $p_m(t)$, to \SYSTEM{}.
 The \textbf{min and max power caps}, $U_{min}$ and $U_{max}$, are system properties.
 
 The \textbf{controller} first computes the \textbf{performance error}, followed by a \emph{speedup} value:
@@ -321,7 +321,7 @@ The \textbf{controller} first computes the \textbf{performance error}, followed 
   \label{eqn:speedup-control}
 \end{eqnarray}
 where $s(t-1)$ is the speedup signal generated in the previous
-iteration, $b(t)$ is the base speed estimate produced by a Kalmanf
+iteration, $b(t)$ is the base speed estimate produced by a Kalman
 filter, and $gain(t)$ (where $0 < gain(t) \le 1$) is a time-varying
 value that scales the control response.
 Finally, the new \textbf{power cap} to be applied is computed as:
@@ -412,7 +412,7 @@ for (i = 1; i <= NUM_LOOPS; i++) {
 \vspace{-1cm}
 \section*{Demonstration and Results}
 
-\SYSTEM{} meets soft performance goals, even for applications with noisy performance behavior, by adjusting the power cap (and thus power consumption):
+\SYSTEM{} meets soft performance goals, even for applications with noisy performance behavior, by adjusting the power cap (and thus actual power consumption):
 
 {
 \PAD
